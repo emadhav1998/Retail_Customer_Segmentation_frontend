@@ -1,20 +1,22 @@
 import React from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import DashboardLayout from './components/layout/DashboardLayout'
+import Overview from './pages/Overview'
+import Dashboard from './pages/Dashboard'
+import SegmentAnalysis from './pages/SegmentAnalysis'
 import './styles.css'
 
 function App() {
   return (
-    <div className="app-container">
-      <header className="app-header">
-        <h1>Retail Customer Segmentation</h1>
-        <p>Analyze and visualize customer segments</p>
-      </header>
-      
-      <main className="app-main">
-        <section className="placeholder">
-          <p>Dashboard and analytics content will be added here</p>
-        </section>
-      </main>
-    </div>
+    <Router>
+      <DashboardLayout>
+        <Routes>
+          <Route path="/" element={<Overview />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/segments" element={<SegmentAnalysis />} />
+        </Routes>
+      </DashboardLayout>
+    </Router>
   )
 }
 
