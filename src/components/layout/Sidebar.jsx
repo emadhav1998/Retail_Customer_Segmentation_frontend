@@ -33,6 +33,14 @@ function Sidebar() {
             Segment Analysis
           </NavLink>
         </li>
+        <li>
+          <NavLink 
+            to="/data-profile" 
+            className={({ isActive }) => isActive ? 'sidebar-link active' : 'sidebar-link'}
+          >
+            Data Profile
+          </NavLink>
+        </li>
       </ul>
       <div className="sidebar-footer">
         <p>v1.0.0</p>

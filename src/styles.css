@@ -413,3 +413,151 @@ body {
     display: none;
   }
 }
+
+/* Data Profile Page */
+.data-profile-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.data-section {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.data-section h2 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.data-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.data-card {
+  background: #f8f9fa;
+  padding: 1.25rem;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.data-card h3 {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.data-value {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.25rem;
+}
+
+.data-description {
+  font-size: 0.8rem;
+  color: #999;
+}
+
+/* Data Table */
+.data-table-container {
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table th,
+.data-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.data-table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #333;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.data-table td {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.table-placeholder {
+  text-align: center;
+  color: #999;
+  font-style: italic;
+}
+
+/* Duplicate Analysis */
+.duplicate-card {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.duplicate-stat {
+  background: #f8f9fa;
+  padding: 1.25rem;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.duplicate-stat h3 {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.duplicate-value {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Data Quality Indicators */
+.quality-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.quality-card {
+  background: #f8f9fa;
+  padding: 1.25rem;
+  border-radius: 6px;
+  border-left: 3px solid #667eea;
+}
+
+.quality-card h3 {
+  font-size: 0.9rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.quality-value {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #667eea;
+  margin-bottom: 0.25rem;
+}
+
+.quality-description {
+  font-size: 0.8rem;
+  color: #999;
+}

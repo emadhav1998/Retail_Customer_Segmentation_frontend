@@ -4,6 +4,7 @@ import DashboardLayout from './components/layout/DashboardLayout'
 import Overview from './pages/Overview'
 import Dashboard from './pages/Dashboard'
 import SegmentAnalysis from './pages/SegmentAnalysis'
+import DataProfile from './pages/DataProfile'
 import './styles.css'
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
           <Route path="/" element={<Overview />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/segments" element={<SegmentAnalysis />} />
+          <Route path="/data-profile" element={<DataProfile />} />
         </Routes>
       </DashboardLayout>
     </Router>
