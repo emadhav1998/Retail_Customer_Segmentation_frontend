@@ -41,6 +41,14 @@ function Sidebar() {
             Data Profile
           </NavLink>
         </li>
+        <li>
+          <NavLink 
+            to="/data-cleaning" 
+            className={({ isActive }) => isActive ? 'sidebar-link active' : 'sidebar-link'}
+          >
+            Data Cleaning
+          </NavLink>
+        </li>
       </ul>
       <div className="sidebar-footer">
         <p>v1.0.0</p>

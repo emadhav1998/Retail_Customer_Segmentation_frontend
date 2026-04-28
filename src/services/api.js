@@ -179,4 +179,86 @@ export const dashboardAPI = {
   }
 }
 
+// Data Cleaning API
+export const cleaningAPI = {
+  // Run cleaning step 1: Remove duplicates & handle missing values
+  runCleaningStep1: async () => {
+    try {
+      const response = await apiClient.post('/cleaning/step1')
+      return response.data
+    } catch (error) {
+      console.error('Error running cleaning step 1:', error)
+      throw error
+    }
+  },
+
+  // Run cleaning step 2: Data type validation
+  runCleaningStep2: async () => {
+    try {
+      const response = await apiClient.post('/cleaning/step2')
+      return response.data
+    } catch (error) {
+      console.error('Error running cleaning step 2:', error)
+      throw error
+    }
+  },
+
+  // Run cleaning step 3: Outlier detection
+  runCleaningStep3: async () => {
+    try {
+      const response = await apiClient.post('/cleaning/step3')
+      return response.data
+    } catch (error) {
+      console.error('Error running cleaning step 3:', error)
+      throw error
+    }
+  },
+
+  // Run cleaning step 4: Final validation and export
+  runCleaningStep4: async () => {
+    try {
+      const response = await apiClient.post('/cleaning/step4')
+      return response.data
+    } catch (error) {
+      console.error('Error running cleaning step 4:', error)
+      throw error
+    }
+  },
+
+  // Get cleaning job status
+  getCleaningStatus: async () => {
+    try {
+      const response = await apiClient.get('/cleaning/status')
+      return response.data
+    } catch (error) {
+      console.error('Error fetching cleaning status:', error)
+      throw error
+    }
+  },
+
+  // Get cleaning history
+  getCleaningHistory: async () => {
+    try {
+      const response = await apiClient.get('/cleaning/history')
+      return response.data
+    } catch (error) {
+      console.error('Error fetching cleaning history:', error)
+      throw error
+    }
+  },
+
+  // Download cleaned data
+  downloadCleanedData: async () => {
+    try {
+      const response = await apiClient.get('/cleaning/download', {
+        responseType: 'blob'
+      })
+      return response.data
+    } catch (error) {
+      console.error('Error downloading cleaned data:', error)
+      throw error
+    }
+  }
+}
+
 export default apiClient
