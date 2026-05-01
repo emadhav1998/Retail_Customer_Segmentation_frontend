@@ -897,3 +897,82 @@ body {
   font-size: 0.8rem;
   color: #999;
 }
+
+/* Invalid Counts Grid */
+.invalid-counts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.invalid-count-card {
+  background: #fff5f5;
+  padding: 1.25rem;
+  border-radius: 8px;
+  border-left: 3px solid #dc3545;
+  text-align: center;
+}
+
+.invalid-count-value {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #dc3545;
+  margin-bottom: 0.25rem;
+}
+
+.invalid-count-description {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.invalid-count-summary {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #fff5f5;
+  border: 1px solid #fcc;
+  border-radius: 6px;
+  color: #c33;
+  font-size: 0.9rem;
+}
+
+/* Final Output Status */
+.final-output-status {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.final-output-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: #f0fff4;
+  border-radius: 8px;
+  border-left: 3px solid #28a745;
+}
+
+.final-output-icon {
+  font-size: 1.5rem;
+}
+
+.final-output-info {
+  flex: 1;
+}
+
+.final-output-filename {
+  font-size: 0.95rem;
+  color: #28a745;
+  font-weight: 500;
+}
+
+.final-output-description {
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 0.25rem;
+}
+
+.final-output-actions {
+  margin-top: 0.5rem;
+}

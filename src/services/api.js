@@ -258,6 +258,30 @@ export const cleaningAPI = {
       console.error('Error downloading cleaned data:', error)
       throw error
     }
+  },
+
+  // Get final cleaned dataset summary
+  getFinalSummary: async () => {
+    try {
+      const response = await apiClient.get('/cleaning/final-summary')
+      return response.data
+    } catch (error) {
+      console.error('Error fetching final summary:', error)
+      throw error
+    }
+  },
+
+  // Download final cleaned data
+  downloadFinalData: async () => {
+    try {
+      const response = await apiClient.get('/cleaning/download-final', {
+        responseType: 'blob'
+      })
+      return response.data
+    } catch (error) {
+      console.error('Error downloading final data:', error)
+      throw error
+    }
   }
 }
 
