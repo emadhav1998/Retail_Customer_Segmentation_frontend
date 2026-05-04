@@ -49,6 +49,14 @@ function Sidebar() {
             Data Cleaning
           </NavLink>
         </li>
+        <li>
+          <NavLink 
+            to="/feature-engineering" 
+            className={({ isActive }) => isActive ? 'sidebar-link active' : 'sidebar-link'}
+          >
+            Feature Engineering
+          </NavLink>
+        </li>
       </ul>
       <div className="sidebar-footer">
         <p>v1.0.0</p>

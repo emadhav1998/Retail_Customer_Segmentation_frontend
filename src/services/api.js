@@ -285,4 +285,64 @@ export const cleaningAPI = {
   }
 }
 
+// Feature Engineering API
+export const featureEngineeringAPI = {
+  // Run feature engineering to create derived features
+  runFeatureEngineering: async () => {
+    try {
+      const response = await apiClient.post('/feature-engineering/run')
+      return response.data
+    } catch (error) {
+      console.error('Error running feature engineering:', error)
+      throw error
+    }
+  },
+
+  // Get derived fields created by feature engineering
+  getDerivedFields: async () => {
+    try {
+      const response = await apiClient.get('/feature-engineering/derived-fields')
+      return response.data
+    } catch (error) {
+      console.error('Error fetching derived fields:', error)
+      throw error
+    }
+  },
+
+  // Get feature engineering status
+  getFeatureEngineeringStatus: async () => {
+    try {
+      const response = await apiClient.get('/feature-engineering/status')
+      return response.data
+    } catch (error) {
+      console.error('Error fetching feature engineering status:', error)
+      throw error
+    }
+  },
+
+  // Get feature engineering summary
+  getFeatureSummary: async () => {
+    try {
+      const response = await apiClient.get('/feature-engineering/summary')
+      return response.data
+    } catch (error) {
+      console.error('Error fetching feature summary:', error)
+      throw error
+    }
+  },
+
+  // Download engineered features dataset
+  downloadEngineeringOutput: async () => {
+    try {
+      const response = await apiClient.get('/feature-engineering/download', {
+        responseType: 'blob'
+      })
+      return response.data
+    } catch (error) {
+      console.error('Error downloading engineered features:', error)
+      throw error
+    }
+  }
+}
+
 export default apiClient

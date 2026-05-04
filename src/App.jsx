@@ -6,6 +6,7 @@ import Dashboard from './pages/Dashboard'
 import SegmentAnalysis from './pages/SegmentAnalysis'
 import DataProfile from './pages/DataProfile'
 import DataCleaning from './pages/DataCleaning'
+import FeatureEngineering from './pages/FeatureEngineering'
 import './styles.css'
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           <Route path="/segments" element={<SegmentAnalysis />} />
           <Route path="/data-profile" element={<DataProfile />} />
           <Route path="/data-cleaning" element={<DataCleaning />} />
+          <Route path="/feature-engineering" element={<FeatureEngineering />} />
         </Routes>
       </DashboardLayout>
     </Router>
