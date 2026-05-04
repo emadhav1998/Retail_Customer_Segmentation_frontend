@@ -57,6 +57,14 @@ function Sidebar() {
             Feature Engineering
           </NavLink>
         </li>
+        <li>
+          <NavLink 
+            to="/customer-summary" 
+            className={({ isActive }) => isActive ? 'sidebar-link active' : 'sidebar-link'}
+          >
+            Customer Summary
+          </NavLink>
+        </li>
       </ul>
       <div className="sidebar-footer">
         <p>v1.0.0</p>

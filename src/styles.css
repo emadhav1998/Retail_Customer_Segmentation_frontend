@@ -976,3 +976,137 @@ body {
 .final-output-actions {
   margin-top: 0.5rem;
 }
+
+/* Customer Summary Page */
+.fields-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.field-card {
+  background: #f0f8ff;
+  padding: 1.25rem;
+  border-radius: 8px;
+  border-left: 3px solid #667eea;
+}
+
+.field-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.field-type {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: #667eea;
+  color: white;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.field-description {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.table-responsive {
+  overflow-x: auto;
+  margin-top: 1rem;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.table-footer {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+  text-align: center;
+  color: #999;
+  font-size: 0.9rem;
+}
+
+.statistics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.statistic-card {
+  background: #f0fff4;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border-left: 3px solid #28a745;
+  text-align: center;
+}
+
+.statistic-card h3 {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.statistic-value {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #28a745;
+  margin-bottom: 0.25rem;
+}
+
+.statistic-description {
+  font-size: 0.85rem;
+  color: #999;
+}
+
+.segment-breakdown {
+  margin-top: 1.5rem;
+  padding: 1.25rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.segment-breakdown h3 {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.segment-breakdown ul {
+  list-style: none;
+  padding: 0;
+}
+
+.segment-breakdown li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.segment-breakdown li:last-child {
+  border-bottom: none;
+}
+
+.segment-name {
+  font-weight: 500;
+  color: #333;
+}
+
+.segment-count {
+  background: #667eea;
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}

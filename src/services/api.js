@@ -345,4 +345,64 @@ export const featureEngineeringAPI = {
   }
 }
 
+// Customer Summary API
+export const summaryAPI = {
+  // Generate customer summary data
+  generateCustomerSummary: async () => {
+    try {
+      const response = await apiClient.post('/summary/generate')
+      return response.data
+    } catch (error) {
+      console.error('Error generating customer summary:', error)
+      throw error
+    }
+  },
+
+  // Get customer summary data
+  getCustomerSummaryData: async () => {
+    try {
+      const response = await apiClient.get('/summary/data')
+      return response.data
+    } catch (error) {
+      console.error('Error fetching customer summary data:', error)
+      throw error
+    }
+  },
+
+  // Get customer summary generation status
+  getCustomerSummaryStatus: async () => {
+    try {
+      const response = await apiClient.get('/summary/status')
+      return response.data
+    } catch (error) {
+      console.error('Error fetching customer summary status:', error)
+      throw error
+    }
+  },
+
+  // Get customer summary statistics
+  getCustomerSummaryStatistics: async () => {
+    try {
+      const response = await apiClient.get('/summary/statistics')
+      return response.data
+    } catch (error) {
+      console.error('Error fetching customer summary statistics:', error)
+      throw error
+    }
+  },
+
+  // Download customer summary dataset
+  downloadCustomerSummary: async () => {
+    try {
+      const response = await apiClient.get('/summary/download', {
+        responseType: 'blob'
+      })
+      return response.data
+    } catch (error) {
+      console.error('Error downloading customer summary:', error)
+      throw error
+    }
+  }
+}
+
 export default apiClient
