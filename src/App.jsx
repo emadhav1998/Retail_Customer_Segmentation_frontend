@@ -8,6 +8,7 @@ import DataProfile from './pages/DataProfile'
 import DataCleaning from './pages/DataCleaning'
 import FeatureEngineering from './pages/FeatureEngineering'
 import CustomerSummary from './pages/CustomerSummary'
+import RFMSetup from './pages/RFMSetup'
 import './styles.css'
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
           <Route path="/data-cleaning" element={<DataCleaning />} />
           <Route path="/feature-engineering" element={<FeatureEngineering />} />
           <Route path="/customer-summary" element={<CustomerSummary />} />
+          <Route path="/rfm-setup" element={<RFMSetup />} />
         </Routes>
       </DashboardLayout>
     </Router>

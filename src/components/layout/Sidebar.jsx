@@ -65,6 +65,14 @@ function Sidebar() {
             Customer Summary
           </NavLink>
         </li>
+        <li>
+          <NavLink 
+            to="/rfm-setup" 
+            className={({ isActive }) => isActive ? 'sidebar-link active' : 'sidebar-link'}
+          >
+            RFM Setup
+          </NavLink>
+        </li>
       </ul>
       <div className="sidebar-footer">
         <p>v1.0.0</p>

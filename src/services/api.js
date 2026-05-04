@@ -405,4 +405,86 @@ export const summaryAPI = {
   }
 }
 
+// RFM Analysis API
+export const rfmAPI = {
+  // Run recency calculation with reference date
+  runRecencyCalculation: async (referenceDate) => {
+    try {
+      const response = await apiClient.post('/rfm/recency', { referenceDate })
+      return response.data
+    } catch (error) {
+      console.error('Error running recency calculation:', error)
+      throw error
+    }
+  },
+
+  // Get recency preview data
+  getRecencyPreview: async () => {
+    try {
+      const response = await apiClient.get('/rfm/recency-preview')
+      return response.data
+    } catch (error) {
+      console.error('Error fetching recency preview:', error)
+      throw error
+    }
+  },
+
+  // Get RFM analysis status
+  getRFMStatus: async () => {
+    try {
+      const response = await apiClient.get('/rfm/status')
+      return response.data
+    } catch (error) {
+      console.error('Error fetching RFM status:', error)
+      throw error
+    }
+  },
+
+  // Run frequency calculation
+  runFrequencyCalculation: async () => {
+    try {
+      const response = await apiClient.post('/rfm/frequency')
+      return response.data
+    } catch (error) {
+      console.error('Error running frequency calculation:', error)
+      throw error
+    }
+  },
+
+  // Run monetary calculation
+  runMonetaryCalculation: async () => {
+    try {
+      const response = await apiClient.post('/rfm/monetary')
+      return response.data
+    } catch (error) {
+      console.error('Error running monetary calculation:', error)
+      throw error
+    }
+  },
+
+  // Get RFM scores
+  getRFMScores: async () => {
+    try {
+      const response = await apiClient.get('/rfm/scores')
+      return response.data
+    } catch (error) {
+      console.error('Error fetching RFM scores:', error)
+      throw error
+    }
+  },
+
+  // Download RFM analysis results
+  downloadRFMResults: async () => {
+    try {
+      const response = await apiClient.get('/rfm/download', {
+        responseType: 'blob'
+      })
+      return response.data
+    } catch (error) {
+      console.error('Error downloading RFM results:', error)
+      throw error
+    }
+  }
+}
+
 export default apiClient
