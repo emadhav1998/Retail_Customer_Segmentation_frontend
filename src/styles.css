@@ -1269,3 +1269,75 @@ body {
   color: #667eea;
   font-weight: 500;
 }
+
+/* RFM Column Summaries */
+.rfm-column-summary {
+  margin-bottom: 2rem;
+}
+
+.rfm-column-summary:last-child {
+  margin-bottom: 0;
+}
+
+.rfm-column-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.rfm-recency-title {
+  color: #ff9800;
+  border-bottom-color: #ff9800;
+}
+
+.rfm-frequency-title {
+  color: #2196f3;
+  border-bottom-color: #2196f3;
+}
+
+.rfm-monetary-title {
+  color: #4caf50;
+  border-bottom-color: #4caf50;
+}
+
+.rfm-stat-frequency {
+  background: #e3f2fd;
+  border-left-color: #2196f3;
+}
+
+.rfm-stat-frequency .rfm-stat-value {
+  color: #2196f3;
+}
+
+.rfm-stat-monetary {
+  background: #e8f5e9;
+  border-left-color: #4caf50;
+}
+
+.rfm-stat-monetary .rfm-stat-value {
+  color: #4caf50;
+}
+
+/* RFM Score Badges */
+.rfm-score-badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: white;
+}
+
+.rfm-r {
+  background: #ff9800;
+}
+
+.rfm-f {
+  background: #2196f3;
+}
+
+.rfm-m {
+  background: #4caf50;
+}

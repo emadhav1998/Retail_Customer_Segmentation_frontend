@@ -7,12 +7,16 @@ function RFMSetup() {
     recencyComplete: false,
     frequencyComplete: false,
     monetaryComplete: false,
+    rfmBaseComplete: false,
     loading: false,
     error: null,
     recencyData: [],
     recencyStats: null,
     frequencyData: [],
+    frequencyStats: null,
     monetaryData: [],
+    monetaryStats: null,
+    rfmBasePreview: [],
     rfmSummary: null,
     outputFile: null
   })
@@ -63,6 +67,56 @@ function RFMSetup() {
         ...prev,
         loading: false,
         error: error.message || 'Failed to fetch recency preview'
+      }))
+    }
+  }
+
+  const handleBuildRFMBase = async () => {
+    setRfmStatus(prev => ({ ...prev, loading: true, error: null }))
+    
+    try {
+      const result = await rfmAPI.buildRFMBaseTable(rfmStatus.referenceDate)
+      setRfmStatus(prev => ({
+        ...prev,
+        loading: false,
+        rfmBaseComplete: true,
+        recencyComplete: true,
+        frequencyComplete: true,
+        monetaryComplete: true,
+        rfmBasePreview: result.preview || [],
+        recencyStats: result.recencyStats || prev.recencyStats,
+        frequencyStats: result.frequencyStats || null,
+        monetaryStats: result.monetaryStats || null,
+        rfmSummary: result.rfmSummary || prev.rfmSummary,
+        outputFile: result.outputFile || 'rfm_base.csv'
+      }))
+    } catch (error) {
+      setRfmStatus(prev => ({
+        ...prev,
+        loading: false,
+        error: error.message || 'Failed to build RFM base file'
+      }))
+    }
+  }
+
+  const handleFetchRFMBasePreview = async () => {
+    setRfmStatus(prev => ({ ...prev, loading: true, error: null }))
+    
+    try {
+      const result = await rfmAPI.getRFMBasePreview()
+      setRfmStatus(prev => ({
+        ...prev,
+        loading: false,
+        rfmBasePreview: result.preview || result.rows || [],
+        recencyStats: result.recencyStats || prev.recencyStats,
+        frequencyStats: result.frequencyStats || prev.frequencyStats,
+        monetaryStats: result.monetaryStats || prev.monetaryStats
+      }))
+    } catch (error) {
+      setRfmStatus(prev => ({
+        ...prev,
+        loading: false,
+        error: error.message || 'Failed to fetch RFM base preview'
       }))
     }
   }
@@ -129,6 +183,13 @@ function RFMSetup() {
         <div className="cleaning-actions">
           <button 
             className="cleaning-button primary"
+            onClick={handleBuildRFMBase}
+            disabled={rfmStatus.loading}
+          >
+            {rfmStatus.loading ? 'Building...' : 'Build Full RFM Base File'}
+          </button>
+          <button 
+            className="cleaning-button secondary"
             onClick={handleRunRecencyCalculation}
             disabled={rfmStatus.loading}
           >
@@ -140,6 +201,13 @@ function RFMSetup() {
             disabled={rfmStatus.loading}
           >
             {rfmStatus.loading ? 'Loading...' : 'Preview Recency Values'}
+          </button>
+          <button 
+            className="cleaning-button secondary"
+            onClick={handleFetchRFMBasePreview}
+            disabled={rfmStatus.loading}
+          >
+            {rfmStatus.loading ? 'Loading...' : 'Preview RFM Base Table'}
           </button>
           <button 
             className="cleaning-button secondary"
@@ -157,36 +225,94 @@ function RFMSetup() {
         )}
       </section>
 
-      {/* Recency Statistics */}
-      {rfmStatus.recencyStats && (
+      {/* Column Summaries: Recency, Frequency, Monetary */}
+      {(rfmStatus.recencyStats || rfmStatus.frequencyStats || rfmStatus.monetaryStats) && (
         <section className="cleaning-section">
-          <h2>Recency Statistics</h2>
-          
-          <div className="rfm-stats-grid">
-            <div className="rfm-stat-card">
-              <h3>Average Recency</h3>
-              <div className="rfm-stat-value">{rfmStatus.recencyStats.averageRecency || 0}</div>
-              <p className="rfm-stat-unit">Days since last purchase</p>
-            </div>
-            
-            <div className="rfm-stat-card">
-              <h3>Max Recency</h3>
-              <div className="rfm-stat-value">{rfmStatus.recencyStats.maxRecency || 0}</div>
-              <p className="rfm-stat-unit">Highest days gap</p>
-            </div>
-            
-            <div className="rfm-stat-card">
-              <h3>Min Recency</h3>
-              <div className="rfm-stat-value">{rfmStatus.recencyStats.minRecency || 0}</div>
-              <p className="rfm-stat-unit">Lowest days gap</p>
-            </div>
+          <h2>RFM Column Summaries</h2>
 
-            <div className="rfm-stat-card">
-              <h3>Customers Analyzed</h3>
-              <div className="rfm-stat-value">{rfmStatus.recencyStats.customerCount || 0}</div>
-              <p className="rfm-stat-unit">Total records</p>
+          {rfmStatus.recencyStats && (
+            <div className="rfm-column-summary">
+              <h3 className="rfm-column-title rfm-recency-title">Recency</h3>
+              <div className="rfm-stats-grid">
+                <div className="rfm-stat-card">
+                  <h3>Average</h3>
+                  <div className="rfm-stat-value">{rfmStatus.recencyStats.averageRecency ?? rfmStatus.recencyStats.average ?? 0}</div>
+                  <p className="rfm-stat-unit">Days since last purchase</p>
+                </div>
+                <div className="rfm-stat-card">
+                  <h3>Min</h3>
+                  <div className="rfm-stat-value">{rfmStatus.recencyStats.minRecency ?? rfmStatus.recencyStats.min ?? 0}</div>
+                  <p className="rfm-stat-unit">Most recent customer</p>
+                </div>
+                <div className="rfm-stat-card">
+                  <h3>Max</h3>
+                  <div className="rfm-stat-value">{rfmStatus.recencyStats.maxRecency ?? rfmStatus.recencyStats.max ?? 0}</div>
+                  <p className="rfm-stat-unit">Least recent customer</p>
+                </div>
+                <div className="rfm-stat-card">
+                  <h3>Customers</h3>
+                  <div className="rfm-stat-value">{rfmStatus.recencyStats.customerCount ?? rfmStatus.recencyStats.count ?? 0}</div>
+                  <p className="rfm-stat-unit">Total records</p>
+                </div>
+              </div>
             </div>
-          </div>
+          )}
+
+          {rfmStatus.frequencyStats && (
+            <div className="rfm-column-summary">
+              <h3 className="rfm-column-title rfm-frequency-title">Frequency</h3>
+              <div className="rfm-stats-grid">
+                <div className="rfm-stat-card rfm-stat-frequency">
+                  <h3>Average</h3>
+                  <div className="rfm-stat-value">{(rfmStatus.frequencyStats.average ?? 0).toFixed(1)}</div>
+                  <p className="rfm-stat-unit">Purchases per customer</p>
+                </div>
+                <div className="rfm-stat-card rfm-stat-frequency">
+                  <h3>Min</h3>
+                  <div className="rfm-stat-value">{rfmStatus.frequencyStats.min ?? 0}</div>
+                  <p className="rfm-stat-unit">Fewest purchases</p>
+                </div>
+                <div className="rfm-stat-card rfm-stat-frequency">
+                  <h3>Max</h3>
+                  <div className="rfm-stat-value">{rfmStatus.frequencyStats.max ?? 0}</div>
+                  <p className="rfm-stat-unit">Most purchases</p>
+                </div>
+                <div className="rfm-stat-card rfm-stat-frequency">
+                  <h3>Customers</h3>
+                  <div className="rfm-stat-value">{rfmStatus.frequencyStats.count ?? 0}</div>
+                  <p className="rfm-stat-unit">Total records</p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {rfmStatus.monetaryStats && (
+            <div className="rfm-column-summary">
+              <h3 className="rfm-column-title rfm-monetary-title">Monetary</h3>
+              <div className="rfm-stats-grid">
+                <div className="rfm-stat-card rfm-stat-monetary">
+                  <h3>Average</h3>
+                  <div className="rfm-stat-value">${(rfmStatus.monetaryStats.average ?? 0).toFixed(2)}</div>
+                  <p className="rfm-stat-unit">Average spend per customer</p>
+                </div>
+                <div className="rfm-stat-card rfm-stat-monetary">
+                  <h3>Min</h3>
+                  <div className="rfm-stat-value">${(rfmStatus.monetaryStats.min ?? 0).toFixed(2)}</div>
+                  <p className="rfm-stat-unit">Lowest total spend</p>
+                </div>
+                <div className="rfm-stat-card rfm-stat-monetary">
+                  <h3>Max</h3>
+                  <div className="rfm-stat-value">${(rfmStatus.monetaryStats.max ?? 0).toFixed(2)}</div>
+                  <p className="rfm-stat-unit">Highest total spend</p>
+                </div>
+                <div className="rfm-stat-card rfm-stat-monetary">
+                  <h3>Total Revenue</h3>
+                  <div className="rfm-stat-value">${(rfmStatus.monetaryStats.total ?? 0).toFixed(0)}</div>
+                  <p className="rfm-stat-unit">Combined customer spend</p>
+                </div>
+              </div>
+            </div>
+          )}
         </section>
       )}
 
@@ -228,6 +354,51 @@ function RFMSetup() {
           {rfmStatus.recencyData.length > 10 && (
             <div className="table-footer">
               <p>Showing 10 of {rfmStatus.recencyData.length} total customers</p>
+            </div>
+          )}
+        </section>
+      )}
+
+      {/* RFM Base Table Preview */}
+      {rfmStatus.rfmBasePreview.length > 0 && (
+        <section className="cleaning-section">
+          <h2>RFM Base Table Preview</h2>
+          <p className="cleaning-description">
+            First {Math.min(10, rfmStatus.rfmBasePreview.length)} rows from the generated RFM base file:
+          </p>
+          
+          <div className="table-responsive">
+            <table className="data-table">
+              <thead>
+                <tr>
+                  <th>Customer ID</th>
+                  <th>Recency (Days)</th>
+                  <th>Frequency</th>
+                  <th>Monetary ($)</th>
+                  <th>R Score</th>
+                  <th>F Score</th>
+                  <th>M Score</th>
+                </tr>
+              </thead>
+              <tbody>
+                {rfmStatus.rfmBasePreview.slice(0, 10).map((row, index) => (
+                  <tr key={index}>
+                    <td>{row.customerId || row.customer_id || '-'}</td>
+                    <td>{row.recencyDays ?? row.recency_days ?? row.recency ?? '-'}</td>
+                    <td>{row.frequency ?? '-'}</td>
+                    <td>{typeof (row.monetary) === 'number' ? row.monetary.toFixed(2) : (row.monetary ?? '-')}</td>
+                    <td><span className="rfm-score-badge rfm-r">{row.rScore ?? row.r_score ?? '-'}</span></td>
+                    <td><span className="rfm-score-badge rfm-f">{row.fScore ?? row.f_score ?? '-'}</span></td>
+                    <td><span className="rfm-score-badge rfm-m">{row.mScore ?? row.m_score ?? '-'}</span></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {rfmStatus.rfmBasePreview.length > 10 && (
+            <div className="table-footer">
+              <p>Showing 10 of {rfmStatus.rfmBasePreview.length} total rows</p>
             </div>
           )}
         </section>

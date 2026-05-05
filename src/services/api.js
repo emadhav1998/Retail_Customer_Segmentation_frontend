@@ -484,6 +484,28 @@ export const rfmAPI = {
       console.error('Error downloading RFM results:', error)
       throw error
     }
+  },
+
+  // Build full RFM base table (recency + frequency + monetary combined)
+  buildRFMBaseTable: async (referenceDate) => {
+    try {
+      const response = await apiClient.post('/rfm/build-base', { referenceDate })
+      return response.data
+    } catch (error) {
+      console.error('Error building RFM base table:', error)
+      throw error
+    }
+  },
+
+  // Get preview rows from the RFM base table
+  getRFMBasePreview: async () => {
+    try {
+      const response = await apiClient.get('/rfm/base-preview')
+      return response.data
+    } catch (error) {
+      console.error('Error fetching RFM base preview:', error)
+      throw error
+    }
   }
 }
 
