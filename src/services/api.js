@@ -506,6 +506,28 @@ export const rfmAPI = {
       console.error('Error fetching RFM base preview:', error)
       throw error
     }
+  },
+
+  // Generate RFM scores for all customers
+  generateRFMScores: async () => {
+    try {
+      const response = await apiClient.post('/rfm/generate-scores')
+      return response.data
+    } catch (error) {
+      console.error('Error generating RFM scores:', error)
+      throw error
+    }
+  },
+
+  // Get RFM score distribution
+  getScoreDistribution: async () => {
+    try {
+      const response = await apiClient.get('/rfm/score-distribution')
+      return response.data
+    } catch (error) {
+      console.error('Error fetching score distribution:', error)
+      throw error
+    }
   }
 }
 

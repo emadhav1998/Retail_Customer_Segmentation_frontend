@@ -8,6 +8,7 @@ function RFMSetup() {
     frequencyComplete: false,
     monetaryComplete: false,
     rfmBaseComplete: false,
+    scoringComplete: false,
     loading: false,
     error: null,
     recencyData: [],
@@ -17,6 +18,8 @@ function RFMSetup() {
     monetaryData: [],
     monetaryStats: null,
     rfmBasePreview: [],
+    rfmScoresPreview: [],
+    scoreDistribution: null,
     rfmSummary: null,
     outputFile: null
   })
@@ -95,6 +98,70 @@ function RFMSetup() {
         ...prev,
         loading: false,
         error: error.message || 'Failed to build RFM base file'
+      }))
+    }
+  }
+
+  const handleFetchRFMBasePreview = async () => {
+    setRfmStatus(prev => ({ ...prev, loading: true, error: null }))
+    
+    try {
+      const result = await rfmAPI.getRFMBasePreview()
+      setRfmStatus(prev => ({
+        ...prev,
+        loading: false,
+        rfmBasePreview: result.preview || result.rows || [],
+        recencyStats: result.recencyStats || prev.recencyStats,
+        frequencyStats: result.frequencyStats || prev.frequencyStats,
+        monetaryStats: result.monetaryStats || prev.monetaryStats
+      }))
+    } catch (error) {
+      setRfmStatus(prev => ({
+        ...prev,
+        loading: false,
+        error: error.message || 'Failed to fetch RFM base preview'
+      }))
+    }
+  }
+
+  const handleGenerateRFMScores = async () => {
+    setRfmStatus(prev => ({ ...prev, loading: true, error: null }))
+    
+    try {
+      const result = await rfmAPI.generateRFMScores()
+      setRfmStatus(prev => ({
+        ...prev,
+        loading: false,
+        scoringComplete: true,
+        rfmScoresPreview: result.preview || result.scores || [],
+        scoreDistribution: result.distribution || result.scoreDistribution || null,
+        outputFile: result.outputFile || 'rfm_scores.csv'
+      }))
+    } catch (error) {
+      setRfmStatus(prev => ({
+        ...prev,
+        loading: false,
+        error: error.message || 'Failed to generate RFM scores'
+      }))
+    }
+  }
+
+  const handleFetchScoreDistribution = async () => {
+    setRfmStatus(prev => ({ ...prev, loading: true, error: null }))
+    
+    try {
+      const result = await rfmAPI.getScoreDistribution()
+      setRfmStatus(prev => ({
+        ...prev,
+        loading: false,
+        scoreDistribution: result.distribution || result.scoreDistribution || prev.scoreDistribution,
+        rfmScoresPreview: result.preview || prev.rfmScoresPreview
+      }))
+    } catch (error) {
+      setRfmStatus(prev => ({
+        ...prev,
+        loading: false,
+        error: error.message || 'Failed to fetch score distribution'
       }))
     }
   }
@@ -204,10 +271,17 @@ function RFMSetup() {
           </button>
           <button 
             className="cleaning-button secondary"
-            onClick={handleFetchRFMBasePreview}
+            onClick={handleGenerateRFMScores}
+            disabled={rfmStatus.loading || !rfmStatus.rfmBaseComplete}
+          >
+            {rfmStatus.loading ? 'Generating...' : 'Generate RFM Scores'}
+          </button>
+          <button 
+            className="cleaning-button secondary"
+            onClick={handleFetchScoreDistribution}
             disabled={rfmStatus.loading}
           >
-            {rfmStatus.loading ? 'Loading...' : 'Preview RFM Base Table'}
+            {rfmStatus.loading ? 'Loading...' : 'Show Score Distribution'}
           </button>
           <button 
             className="cleaning-button secondary"
@@ -448,8 +522,138 @@ function RFMSetup() {
         </section>
       )}
 
+      {/* Score Distribution Cards */}
+      {rfmStatus.scoreDistribution && (
+        <section className="cleaning-section">
+          <h2>RFM Score Distribution</h2>
+          <p className="cleaning-description">
+            Distribution of R, F, and M scores across the customer base:
+          </p>
+
+          <div className="score-distribution-grid">
+            {rfmStatus.scoreDistribution.rScores && (
+              <div className="score-distribution-card rfm-recency-card">
+                <h3 className="score-title">Recency Score Distribution</h3>
+                <div className="score-bars">
+                  {Object.entries(rfmStatus.scoreDistribution.rScores).map(([score, count]) => (
+                    <div key={score} className="score-bar">
+                      <label>{score}</label>
+                      <div className="bar-container">
+                        <div 
+                          className="bar-fill rfm-recency-bar"
+                          style={{
+                            width: `${(count / Math.max(...Object.values(rfmStatus.scoreDistribution.rScores))) * 100}%`
+                          }}
+                        >
+                          <span className="bar-label">{count}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {rfmStatus.scoreDistribution.fScores && (
+              <div className="score-distribution-card rfm-frequency-card">
+                <h3 className="score-title">Frequency Score Distribution</h3>
+                <div className="score-bars">
+                  {Object.entries(rfmStatus.scoreDistribution.fScores).map(([score, count]) => (
+                    <div key={score} className="score-bar">
+                      <label>{score}</label>
+                      <div className="bar-container">
+                        <div 
+                          className="bar-fill rfm-frequency-bar"
+                          style={{
+                            width: `${(count / Math.max(...Object.values(rfmStatus.scoreDistribution.fScores))) * 100}%`
+                          }}
+                        >
+                          <span className="bar-label">{count}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {rfmStatus.scoreDistribution.mScores && (
+              <div className="score-distribution-card rfm-monetary-card">
+                <h3 className="score-title">Monetary Score Distribution</h3>
+                <div className="score-bars">
+                  {Object.entries(rfmStatus.scoreDistribution.mScores).map(([score, count]) => (
+                    <div key={score} className="score-bar">
+                      <label>{score}</label>
+                      <div className="bar-container">
+                        <div 
+                          className="bar-fill rfm-monetary-bar"
+                          style={{
+                            width: `${(count / Math.max(...Object.values(rfmStatus.scoreDistribution.mScores))) * 100}%`
+                          }}
+                        >
+                          <span className="bar-label">{count}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </section>
+      )}
+
+      {/* RFM Scores Preview Table */}
+      {rfmStatus.rfmScoresPreview.length > 0 && (
+        <section className="cleaning-section">
+          <h2>RFM Scores Preview</h2>
+          <p className="cleaning-description">
+            First {Math.min(10, rfmStatus.rfmScoresPreview.length)} customer RFM scores:
+          </p>
+          
+          <div className="table-responsive">
+            <table className="data-table">
+              <thead>
+                <tr>
+                  <th>Customer ID</th>
+                  <th>Recency (Days)</th>
+                  <th>Frequency</th>
+                  <th>Monetary ($)</th>
+                  <th>R Score</th>
+                  <th>F Score</th>
+                  <th>M Score</th>
+                  <th>Combined Score</th>
+                  <th>Segment</th>
+                </tr>
+              </thead>
+              <tbody>
+                {rfmStatus.rfmScoresPreview.slice(0, 10).map((row, index) => (
+                  <tr key={index}>
+                    <td>{row.customerId || row.customer_id || '-'}</td>
+                    <td>{row.recencyDays ?? row.recency_days ?? row.recency ?? '-'}</td>
+                    <td>{row.frequency ?? '-'}</td>
+                    <td>{typeof (row.monetary) === 'number' ? `$${row.monetary.toFixed(2)}` : (row.monetary ?? '-')}</td>
+                    <td><span className="rfm-score-badge rfm-r">{row.rScore ?? row.r_score ?? '-'}</span></td>
+                    <td><span className="rfm-score-badge rfm-f">{row.fScore ?? row.f_score ?? '-'}</span></td>
+                    <td><span className="rfm-score-badge rfm-m">{row.mScore ?? row.m_score ?? '-'}</span></td>
+                    <td><strong>{row.rfmScore ?? row.combined_score ?? row.rfm_score ?? '-'}</strong></td>
+                    <td>{row.segment || row.segment_name || '-'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {rfmStatus.rfmScoresPreview.length > 10 && (
+            <div className="table-footer">
+              <p>Showing 10 of {rfmStatus.rfmScoresPreview.length} total rows</p>
+            </div>
+          )}
+        </section>
+      )}
+
       {/* Output File Status */}
-      {rfmStatus.outputFile && (
+      {rfmStatus.outputFile && rfmStatus.scoringComplete && (
         <section className="cleaning-section">
           <h2>Output File</h2>
           

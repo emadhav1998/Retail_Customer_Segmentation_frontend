@@ -1341,3 +1341,96 @@ body {
 .rfm-m {
   background: #4caf50;
 }
+
+/* Score Distribution Grid */
+.score-distribution-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.score-distribution-card {
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 2px solid #e0e0e0;
+}
+
+.rfm-recency-card {
+  background: #fff8f3;
+  border-color: #ff9800;
+}
+
+.rfm-frequency-card {
+  background: #f3f7ff;
+  border-color: #2196f3;
+}
+
+.rfm-monetary-card {
+  background: #f3fff3;
+  border-color: #4caf50;
+}
+
+.score-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.score-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.score-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.score-bar label {
+  min-width: 40px;
+  font-weight: 500;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.bar-container {
+  flex: 1;
+  height: 24px;
+  background: #f0f0f0;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.bar-fill {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 0.5rem;
+  min-width: 30px;
+  transition: width 0.3s ease;
+}
+
+.rfm-recency-bar {
+  background: #ff9800;
+}
+
+.rfm-frequency-bar {
+  background: #2196f3;
+}
+
+.rfm-monetary-bar {
+  background: #4caf50;
+}
+
+.bar-label {
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
